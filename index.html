@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>Give a backbone to your web apps</title>
+	
+	<meta name="description" content="Give a backbone to your web apps">
+	<meta name="author" content="Simão Mata">
+	<meta name="viewport" content="width=1024, user-scalable=no">
+	
+	<!-- Core and extension CSS files -->
+	<link rel="stylesheet" href="vendors/deck.js/core/deck.core.css">
+	<link rel="stylesheet" href="vendors/deck.js/extensions/goto/deck.goto.css">
+	<link rel="stylesheet" href="vendors/deck.js/extensions/menu/deck.menu.css">
+	<link rel="stylesheet" href="vendors/deck.js/extensions/status/deck.status.css">
+	<link rel="stylesheet"
+              href="vendors/deck.js/extensions/hash/deck.hash.css">
+
+	<link rel="stylesheet" href="introduction.css">
+	
+	<!-- Theme CSS files (menu swaps these out) -->
+	<link rel="stylesheet" id="style-theme-link" href="themes/style/swiss.css">
+<!--	<link rel="stylesheet" id="transition-theme-link"  href="themes/transition/horizontal-slide.css"> -->
+	
+	<!-- Custom CSS just for this page -->
+	<link rel="stylesheet" href="introduction.css">
+	
+	<script src="vendors/modernizr.custom.js"></script>
+</head>
+
+<body class="deck-container">
+
+
+<section class="slide" id="title-slide">
+	<h1>Give a backbone to your web apps</h1>
+</section>
+
+<section class="slide" id="why">
+  <h1>Why do you need backbone</h1>
+</section>
+
+<section class="slide" id="why-2">
+  <h1>You Don't</h1>
+</section>
+
+<section class="slide" id="why-3">
+<h1><span class="pink">You need Structure</span></h1>
+</section>
+
+
+<section class="slide" id="structure">
+  <h2>Structure, you say?</h2>
+
+  <h3>Every application needs a structure, a web app is not an exception.</h3>
+
+  <h4>Typical problems with a web app structure:</h4>
+  
+  <ul>
+    <li>Spaguetti code</li>
+    <li>Event handling code mixed with UI code</li>
+    <li>Event handling code scatarred all over the application</li>
+  </ul>
+</section>
+
+
+<section class="slide" id="solution">
+  <h1>So, how do we solve this?</h1>
+</section>
+
+<section class="slide" id="solution-2">
+  <h2>So, how do we solve this?</h2>
+
+  <h1>The same way we solve it in other applications</h1>
+</section>
+
+<section class="slide" id="mvc-2">
+  <h1 style="text-align:left; margin-left: 2.5em">
+    <span class="pink">M</span>odel,<br>
+    <span class="pink">V</span>iew,<br>
+    <span class="pink">C</span>ontroller
+</h1>
+</section>
+
+
+<section class="slide" id="mvc-3">
+  <h2>Typical MVC implementation for a Web Application</h2>
+  <img src="img/http_mvc.png" alt="Web App MVC">
+</section>
+
+<section class="slide" id="mvc-4">
+  <h2>Server-side MVC</h2>
+
+  <p>MVC gives structure to your server side application.</p>
+
+  <ul>
+    <li><strong>Separation of concerns</strong> Business logic is
+    isolated from the user interface code and the persistence layer
+    mechanism </li>
+
+    <li><strong>Minimizes Coupling</strong> Every component can work
+    independently from each other </li>
+  </ul>
+</section>
+
+
+<section class="slide" id="mvc-5">
+  <h1>What about all that client code?</h1>
+</section>
+
+
+<!-- Backbone supplies structure to JavaScript-heavy applications by
+providing models with key-value binding and custom events, collections
+with a rich API of enumerable functions, views with declarative event
+handling, and connects it all to your existing application over a
+RESTful JSON interface.
+
+Different implementations of the Model-View-Controller pattern tend to
+disagree about the definition of a controller. If it helps any, in
+Backbone, the View class can also be thought of as a kind of
+controller, dispatching events that originate from the UI, with the
+HTML template serving as the true view. We call it a View because it
+represents a logical chunk of UI, responsible for the contents of a
+single DOM element.
+
+Backbone.Model – Like a Rails model minus the class methods. Wraps a row of data in business logic.
+Backbone.Collection – A group of models on the client-side, with sorting/filtering/aggregation logic.
+Backbone.Router – Rails routes.rb + Rails controller actions. Maps URLs to functions.
+Backbone.View – A logical, re-usable piece of UI. Often, but not always, associated with a model.
+Client-side Templates – Rails .html.erb views, rendering a chunk of HTML.
+-->
+
+<section class="slide" id="what-is-backbone">
+  <h2>Enter Backbone JS</h2>
+
+  <h3>Not your Rails/Django/... MVC</h3>
+
+  <p>Backbone supplies <strong>structure</strong> to web applications by providing
+    <strong>Models, Collections, Views and Events</strong></p>
+
+  <ul>
+    <li><strong>Backbone.Model</strong> Like a Rails/Django model, wraps data with business logic</li>
+    <li><strong>Backbone.View</strong> A re-usable piece of UI, often associated with a model. Dispatches events that originate from the UI</li>
+    <li><strong>Backbone.Collection</strong> A group of models on the client-side</li>
+    <li><strong>Templates</strong> Like Rails .html.erb views or Django templates
+  </ul>
+  
+  <p>All connected with key-value binding, custom events and
+  declarative event handling</p>
+
+  <h3>Where's the controller?</h3>
+  <p>Backbone uses <strong>Backbone.Router</strong> to map urls and hashes to functions</p>
+</section>
+
+
+<section class="slide" id="models">
+  <h2>Backbone.Model</h2>
+
+  <ul>
+    <li>Powerful wrapper around a JSON object</li>
+    <li>Like a traditional Model, but with a simpler API </li>
+    <li>Event binding support for many different event types,
+    (e.g. change of an attribute, refresh, etc...)</li>
+    <li>Able to sync with a server site RESTful JSON API</li>
+    <ul>
+      <li>But you don't need a RESTful API</li>
+      <li>You can save your models using localStorage or in memory</li>
+    </ul>
+  </ul>
+</section>
+
+<section class="slide" id="collections">
+  <h2>Backbone.Collection</h2>
+
+  <ul>
+    <li>An object containing many instances of a model class </li>
+    <li>Can update itself using via AJAX using a simple method call</li>
+    <li>Allows event binding to change events on any model in the collection</li>
+    <li>Supports most Underscore JS array functions, inspered by Ruby's Enumerable methods</li>
+  </ul>
+
+</section>
+
+<section class="slide" id="events">
+  <h2>Backbone.Events</h2>
+  
+  <p>Simple API to handle global events</p>
+</section>
+
+
+<section class="slide" id="views">
+  <h2>Backbone.Views</h2>
+
+</section>
+
+
+<section class="slide" id="code-1">
+  <h1>&lt;code&gt;</h1>
+</section>
+
+
+
+<section class="slide" id="">
+  <h2>Tips, tips, tips</h2>
+
+  <ul>
+    <li><h4>Watch out when following the "official" TODO example</h4></li>
+    <li><h4>Binding "this"</h4></li>
+    <li><h4>Learn to love underscore.js - "It's the tie to go along with jQuery's tux."</h4></li>
+  </ul>
+
+  <!-- Funny tips image -->
+</section>
+
+
+<section class="slide" id="thanks-to">
+  https://docs.google.com/present/view?id=0ASCFfg1aEastZGN2eHE4YnFfNzY4OGt4NmRu&hl=en_US
+  http://documentcloud.github.com/backbone/
+</section>
+
+
+
+<section class="slides" id="why-backbone">
+  
+</section>
+
+
+<section class="slide" id="alternatives">
+  <h2>Other options</h2>
+
+  <h3>There are alternatives to backbone</h3>
+
+  <ul>
+    <li>Knockout.js</li>
+    <li>Sproutcore</li>
+    <li>JavaScript MVC</li>
+  </ul>
+</section>
+
+
+
+<p class="deck-status">
+	<span class="deck-status-current"></span>
+	/
+	<span class="deck-status-total"></span>
+</p>
+
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<script src="vendors/jquery-1.6.4.min.js"></script>
+
+<!-- Deck Core and extensions -->
+<script src="vendors/deck.js/core/deck.core.js"></script>
+<script src="vendors/deck.js/extensions/menu/deck.menu.js"></script>
+<script src="vendors/deck.js/extensions/goto/deck.goto.js"></script>
+<script src="vendors/deck.js/extensions/status/deck.status.js"></script>
+<script src="vendors/deck.js/extensions/navigation/deck.navigation.js"></script>
+<script src="vendors/deck.js/extensions/hash/deck.hash.js"></script>
+
+<!-- Specific to this page -->
+<script src="introduction.js"></script>
+
+</body>
+</html>
