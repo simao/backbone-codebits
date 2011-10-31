@@ -31,6 +31,10 @@
 	<link rel="stylesheet" href="introduction.css">
 	
 	<script src="vendors/modernizr.custom.js"></script>
+        
+        
+        <link rel="stylesheet" href="vendors/deck.js/extensions/codemirror/deck.codemirror.css">
+        <link rel="stylesheet" href="vendors/deck.js/extensions/codemirror/themes/default.css">
 </head>
 
 <body class="deck-container">
@@ -75,7 +79,7 @@ Dificil de testar/manter quando isto esta tudo misturado
 <section class="slide" id="structure">
   <h2>Structure, you say?</h2>
 
-  <h3>Every application needs a structure, a web app is not an exception.</h3>
+  <h3>Every application needs structure, a web app is not an exception</h3>
 
   <h4>Typical problems:</h4>
   
@@ -200,6 +204,28 @@ conversions, validations, computed properties, etc</p>
 
 <!-- TODO: Code for Models -->
 
+<section class="slide" id="models-code">
+
+  <h2>Backbone.Model Code</h2>
+
+  <div id="code-models" name="code-models" class="code" mode="javascript" style="display: none;" 
+       globals="$,Backbone,_" runnable="true">
+    var Book = Backbone.Model.extend({
+	    makeName : function () {
+    		return 'Author: ' + this.get('author') +
+    			', Title: ' + this.get('title');
+	    }
+    });
+
+    var myBook = new Book({title: "JavaScript: The good parts"});
+    myBook.set({author: "Douglas Crockford"});
+
+    console.log(myBook.makeName());
+  </div>
+
+</section>
+
+
 
 <!-- Collections are ordered sets of models. You can to bind "change"
 events to be notified when any model in the collection has been
@@ -224,6 +250,36 @@ collection, for example: Documents.bind("change:selected", ...)
   </ul>
 
 </section>
+
+
+<script type="codemirror" data-selector="#code-collections">
+    var Book = Backbone.Model.extend({});
+</script>
+
+<section class="slide" id="collections-code">
+  
+  <h2>Backbone.Collection Code</h2>
+
+  <div id="code-collections" name="code-collections" class="code" mode="javascript" style="display: none;" 
+       globals="$,Backbone,_" runnable="true">
+
+    var Library = Backbone.Collection.extend({
+    	model: Book
+    });
+
+    var myLibrary = new Library;
+
+    myLibrary.add(new Book({title: "The Time Machine"}));
+
+    var myBook = myLibrary.first();
+
+    console.log(myBook.get('title'));
+    console.log("Library size: " + myLibrary.length)
+  </div>
+
+</section>
+
+
 
 <!--
     Coisas para falar:
@@ -256,6 +312,42 @@ the UI, it is always immediately up to date.
 </section>
 
 
+<script type="codemirror" data-selector="#code-collections">
+    var Book = Backbone.Model.extend({});
+</script>
+
+<section class="slide" id="views-code">
+    <h2>Backbone.View Code</h2>
+
+  <div id="code-views" name="code-views" class="code" mode="javascript" style="display: none;" 
+       >var BookView = Backbone.View.extend({
+
+events: {
+  "dblclick"		    : "open",
+  "click .icon.book"	    : "select",
+    .......
+},
+
+render: function() {
+  $(this.el).html(this.template(this.model.toJSON()));
+  return this;
+},
+
+open: function() {
+  window.open(this.model.get("book_detail_url"));
+},
+
+select: function() {
+  this.model.set({selected: true});
+},
+...
+});
+  </div>
+
+</section>
+
+
+
 <!-- 
 Events is a module that can be mixed in to any object, giving the
 object the ability to bind and trigger custom named events. Events do
@@ -273,15 +365,17 @@ arguments. For example:
     <li>Gives object the ability to bind and trigger custom named events.</li>   
   </ul>
 
-  <pre>
-    var object = {};
-    _.extend(object, Backbone.Events);
-    object.bind("alert", function(msg) {
-    	alert("Triggered " + msg);
-    });
+  <div id="code-events" name="code-events" class="code" mode="javascript" style="display: none;" 
+   globals="$,Backbone,_" runnable="true">var object = {};
 
-    object.trigger("alert", "an event");
-  </pre>
+_.extend(object, Backbone.Events);
+
+object.bind("custom-event", function(msg) {
+	console.log("Triggered " + msg);
+});
+
+object.trigger("custom-event", "An event")
+  </div>
 
 </section>
 
@@ -360,6 +454,9 @@ Gosto de soluções simples
 
 <script src="vendors/jquery-1.6.4.min.js"></script>
 
+<script src="vendors/underscore.js"></script>
+<script src="vendors/backbone.js"></script>
+
 <!-- Deck Core and extensions -->
 <script src="vendors/deck.js/core/deck.core.js"></script>
 <script src="vendors/deck.js/extensions/menu/deck.menu.js"></script>
@@ -367,6 +464,16 @@ Gosto de soluções simples
 <script src="vendors/deck.js/extensions/status/deck.status.js"></script>
 <script src="vendors/deck.js/extensions/navigation/deck.navigation.js"></script>
 <script src="vendors/deck.js/extensions/hash/deck.hash.js"></script>
+
+<!-- Codemiror code -->
+<script src="vendors/deck.js/extensions/codemirror/codemirror.js"></script>
+<script src="vendors/deck.js/extensions/codemirror/mode/javascript/javascript.js"></script>
+<script src="vendors/deck.js/extensions/codemirror/mode/xml/xml.js"></script>
+<script src="vendors/deck.js/extensions/codemirror/mode/css/css.js"></script>
+<script src="vendors/deck.js/extensions/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="vendors/deck.js/extensions/codemirror/deck.codemirror.js"></script>
+        
+
 
 <!-- Specific to this page -->
 <script src="introduction.js"></script>
