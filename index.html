@@ -37,11 +37,17 @@
 
 
 <section class="slide" id="title-slide">
-	<h1>Give a backbone to your web apps</h1>
+	<h1>Give a backbone to your web apps
+          <br>
+          <span style="color: gray; font-size: 0.5em">Simão Mata - @simaom<br>
+          http://spreadd.com</span>
+        </h1>
+
+
 </section>
 
 <section class="slide" id="why">
-  <h1>Why do you need backbone</h1>
+  <h1>Why do you need Backbone</h1>
 </section>
 
 <section class="slide" id="why-2">
@@ -53,17 +59,31 @@
 </section>
 
 
+<!--
+
+Falar no HTML ficar de facto misturado com javascript
+
+
+Manipulação do DOM misturada com código de validações e código ajax, etc etc 
+
+No separation of concernss
+
+Dificil de testar/manter quando isto esta tudo misturado
+
+-->
+
 <section class="slide" id="structure">
   <h2>Structure, you say?</h2>
 
   <h3>Every application needs a structure, a web app is not an exception.</h3>
 
-  <h4>Typical problems with a web app structure:</h4>
+  <h4>Typical problems:</h4>
   
   <ul>
-    <li>Spaguetti code</li>
-    <li>Event handling code mixed with UI code</li>
-    <li>Event handling code scatarred all over the application</li>
+    <li>Spaghetti code</li>
+    <li>Presentation code coupled with data</li>
+    <li>Presentation code mixed with business logic </li>
+    <li>Event handling code scattered all over the application</li>
   </ul>
 </section>
 
@@ -73,9 +93,9 @@
 </section>
 
 <section class="slide" id="solution-2">
-  <h2>So, how do we solve this?</h2>
+  <h1><span class="pink">So, how do we solve this?</span><br>
 
-  <h1>The same way we solve it in other applications</h1>
+The same way we solve it in other applications</h1>
 </section>
 
 <section class="slide" id="mvc-2">
@@ -160,40 +180,108 @@ Client-side Templates – Rails .html.erb views, rendering a chunk of HTML.
 <section class="slide" id="models">
   <h2>Backbone.Model</h2>
 
+  <p>Models contain the web app data and a big part of it's logic:
+conversions, validations, computed properties, etc</p>
+
   <ul>
     <li>Powerful wrapper around a JSON object</li>
-    <li>Like a traditional Model, but with a simpler API </li>
+    <li>Like a traditional Model, but with a simpler API</li>
     <li>Event binding support for many different event types,
     (e.g. change of an attribute, refresh, etc...)</li>
     <li>Able to sync with a server site RESTful JSON API</li>
     <ul>
       <li>But you don't need a RESTful API</li>
-      <li>You can save your models using localStorage or in memory</li>
+      <!-- <li>You can save your models using localStorage or in
+      memory</li> -->
     </ul>
+    <li>Extend Backbone.Model with your domain-specific methods</li>
   </ul>
 </section>
+
+<!-- TODO: Code for Models -->
+
+
+<!-- Collections are ordered sets of models. You can to bind "change"
+events to be notified when any model in the collection has been
+modified, listen for "add" and "remove" events, fetch the collection
+from the server, and use a full suite of Underscore.js methods.
+
+Any event that is triggered on a model in a collection will also be
+triggered on the collection directly, for convenience. This allows you
+to listen for changes to specific attributes in any model in a
+collection, for example: Documents.bind("change:selected", ...)
+-->
 
 <section class="slide" id="collections">
   <h2>Backbone.Collection</h2>
 
+  <p>An object containing many instances of a model class</p>
+
   <ul>
-    <li>An object containing many instances of a model class </li>
     <li>Can update itself using via AJAX using a simple method call</li>
     <li>Allows event binding to change events on any model in the collection</li>
-    <li>Supports most Underscore JS array functions, inspered by Ruby's Enumerable methods</li>
+    <li>Supports most Underscore JS array functions, inspired by Ruby's Enumerable methods</li>
   </ul>
 
 </section>
 
-<section class="slide" id="events">
-  <h2>Backbone.Events</h2>
-  
-  <p>Simple API to handle global events</p>
-</section>
+<!--
+    Coisas para falar:
+
+Views — they don't determine anything about your HTML or CSS for you,
+and can be used with any JavaScript templating library. The general
+idea is to organize your interface into logical views, backed by
+models, each of which can be updated independently when the model
+changes, without having to redraw the page. Instead of digging into a
+JSON object, looking up an element in the DOM, and updating the HTML
+by hand, you can bind your view's render function to the model's
+"change" event — and now everywhere that model data is displayed in
+the UI, it is always immediately up to date.
+-->
 
 
 <section class="slide" id="views">
   <h2>Backbone.Views</h2>
+
+  <ul>
+    <li>They don't determine anything about your HTML, that's the template's job</li>
+    <li>They glue the model with the template</li>
+    <li>The idea is to organize the interface into logical views,
+    backed by models, each of which can be updated independently when
+    the model changes</li>
+    <li>You can bind a your view's render function to a
+    model <strong>change</strong> event</li>
+    <li>Can use any templating library</li>
+  </ul>
+</section>
+
+
+<!-- 
+Events is a module that can be mixed in to any object, giving the
+object the ability to bind and trigger custom named events. Events do
+not have to be declared before they are bound, and may take passed
+arguments. For example:
+-->
+
+<section class="slide" id="events">
+  <h2>Backbone.Events</h2>
+
+  <p>Can be mixed in to any object</p>
+
+  <ul> 
+    <li>Simple, yet powerful API to handle events</li>
+    <li>Gives object the ability to bind and trigger custom named events.</li>   
+  </ul>
+
+  <pre>
+    var object = {};
+    _.extend(object, Backbone.Events);
+    object.bind("alert", function(msg) {
+    	alert("Triggered " + msg);
+    });
+
+    object.trigger("alert", "an event");
+  </pre>
 
 </section>
 
@@ -203,44 +291,63 @@ Client-side Templates – Rails .html.erb views, rendering a chunk of HTML.
 </section>
 
 
+<section class="slide" id="code-end">
+    <h1>&lt;/code&gt;</h1>
+</section>
+
+
 
 <section class="slide" id="">
   <h2>Tips, tips, tips</h2>
 
   <ul>
-    <li><h4>Watch out when following the "official" TODO example</h4></li>
-    <li><h4>Binding "this"</h4></li>
-    <li><h4>Learn to love underscore.js - "It's the tie to go along with jQuery's tux."</h4></li>
+    <li>Watch out when following the "official" TODO example</li>
+    <li>Always remember binding <code>this</code></li>
+    <li>Learn to love underscore.js - "It's the tie to go along with jQuery's tux."</li>
   </ul>
 
   <!-- Funny tips image -->
 </section>
 
 
-<section class="slide" id="thanks-to">
-  https://docs.google.com/present/view?id=0ASCFfg1aEastZGN2eHE4YnFfNzY4OGt4NmRu&hl=en_US
-  http://documentcloud.github.com/backbone/
-</section>
+<!--
+
+Não é uma caixa negra que nao percebemos, sabemos o que se passa e nao
+há magia
+
+Gosto de soluções simples
+
+-->
 
 
+<section class="slide" id="why-backbone">
+<h2>Why backbone and not X</h2>
 
-<section class="slides" id="why-backbone">
-  
-</section>
+<h3>Backbone is great</h3>
+<ul>
+  <li>Good documentation</li>
+  <li>Very readable code and small code base</li>
+  <li>Very lightweight, <strong>4.6 kb</strong>, gzipped</li>
+  <li>Mobile ready</li>
+</ul>
 
-
-<section class="slide" id="alternatives">
-  <h2>Other options</h2>
-
-  <h3>There are alternatives to backbone</h3>
-
+<h3>Alternatives</h3>
   <ul>
     <li>Knockout.js</li>
     <li>Sproutcore</li>
     <li>JavaScript MVC</li>
+    <li>...</li>
+    <li>Probably awesome too</li>
   </ul>
 </section>
 
+<section class="slide" id="thanks-to">
+  <h2>References</h2>
+  <ul>
+    <li>Backbone.JS - <a href="http://documentcloud.github.com/backbone/">github</a></li>
+    <li>Pivotal Labs talk on Backbone.js</li>
+  </ul>
+</section>
 
 
 <p class="deck-status">
