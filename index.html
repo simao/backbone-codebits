@@ -208,7 +208,9 @@ conversions, validations, computed properties, etc</p>
 
   <h2>Backbone.Model Code</h2>
 
-  <div id="code-models" name="code-models" class="code" mode="javascript" style="display: none;" 
+
+  <div>
+  <textarea id="code-models" name="code-models" class="code" mode="javascript" style="display: none;" 
        globals="$,Backbone,_" runnable="true">
     var Book = Backbone.Model.extend({
 	    makeName : function () {
@@ -221,6 +223,7 @@ conversions, validations, computed properties, etc</p>
     myBook.set({author: "Douglas Crockford"});
 
     console.log(myBook.makeName());
+  </textarea>
   </div>
 
 </section>
@@ -279,6 +282,32 @@ collection, for example: Documents.bind("change:selected", ...)
 
 </section>
 
+<script type="codemirror" data-selector="#code-collections-events">
+    var Book = Backbone.Model.extend({});
+    var Library = Backbone.Collection.extend({
+    	model: Book
+    });
+</script>
+
+<section class="slide" id="collections-events">
+  
+  <h2>Backbone.Collection Events</h2>
+
+
+  <div>
+  <div id="code-collections-events" name="code-collections-events" class="code" mode="javascript" style="display: none;" 
+       globals="$,Backbone,_" runnable="true">
+    var myLibrary = new Library;
+
+    myLibrary.bind("add", function (model) {
+    	console.log("New book added to collection: " + model.get('title'));
+    });
+
+    myLibrary.add(new Book({title: "The Time Machine"}));
+  </div>
+  </div>
+</section>
+
 
 
 <!--
@@ -312,35 +341,31 @@ the UI, it is always immediately up to date.
 </section>
 
 
-<script type="codemirror" data-selector="#code-collections">
-    var Book = Backbone.Model.extend({});
-</script>
-
 <section class="slide" id="views-code">
     <h2>Backbone.View Code</h2>
 
   <div id="code-views" name="code-views" class="code" mode="javascript" style="display: none;" 
        >var BookView = Backbone.View.extend({
 
-events: {
-  "dblclick"		    : "open",
-  "click .icon.book"	    : "select",
-    .......
-},
-
-render: function() {
-  $(this.el).html(this.template(this.model.toJSON()));
-  return this;
-},
-
-open: function() {
-  window.open(this.model.get("book_detail_url"));
-},
-
-select: function() {
-  this.model.set({selected: true});
-},
-...
+    events: {
+    	"dblclick"		    : "open",
+    	"click .icon.book"	    : "select",
+    	.......
+    },
+         
+    render: function() {
+    	$(this.el).html(this.template(this.model.toJSON()));
+    	   return this;
+    },
+         
+    open: function() {
+    	window.open(this.model.get("book_detail_url"));
+    },
+    
+    select: function() {
+    	this.model.set({selected: true});
+    },
+    ...
 });
   </div>
 
@@ -383,6 +408,109 @@ object.trigger("custom-event", "An event")
 <section class="slide" id="code-1">
   <h1>&lt;code&gt;</h1>
 </section>
+
+
+<section class="slide" id="tweet-model">
+  <h2>A Model</h2>
+<div>
+  <textarea name="tweet-model-code" id="tweet-model-code" class="code" mode="javascript"
+            style="display:none;" globals="$,_,Backbone"
+            runnable="true">
+
+    var Tweet = Backbone.Model.extend({    });
+
+    var t = new Tweet({id: "131503891199172610", "text": "Hello Codebits"});
+
+    console.log(t.get('text'))
+  </textarea>
+</div> 
+</section>
+
+
+<script type="codemirror" data-selector="#tweet-view-code, #code-3">
+    var Tweet = Backbone.Model.extend({});
+</script>
+
+
+<section class="slide" id="tweet-view">
+  <h2>A View</h2>
+
+<div>
+  <textarea name="tweet-view-code" id="tweet-view-code" class="code" mode="javascript"
+            style="display:none;" globals="$,_,Backbone"
+            runnable="true">
+
+    var TweetView = Backbone.View.extend({
+    	initialize : function (options) {
+    		this.template = options.template;
+    	},
+    
+    	render : function () {
+    		$(this.el).append(_.template(this.template, this.model.toJSON()));
+    		return this;
+    	}
+    });
+
+    var template = "<strong><%=user%></strong> tweeted: <span style='color:blue'><%=text%></span><br>";
+
+    var t = new Tweet({user: "Alph", text: "1 2 3 Testing"});
+    var v = new TweetView({el: $("#zbitens"), model: t, template: template});
+
+    v.render();
+
+  </textarea>
+</div> 
+
+<div id="zbitens"></div>
+
+</section>
+
+
+<section class="slide" id="slide-code-2">
+  <h2>A Collection of Tweets</h2>
+<div>
+  <textarea name="code-2" id="code-2" class="code" mode="javascript"
+            style="display:none;" globals="$,_,Backbone"
+            runnable="true">
+
+    var Tweets = Backbone.Collection.extend({
+    	model: Tweet,
+
+    	initialize : function (models, options) {
+    		this.tag = options.tag || "codebits";
+    	},
+
+    	url : function () {
+    		return '/tweets/' + this.tag;
+    	}
+    });
+
+    var codebits_tweets = new Tweets({}, {tag: "scala"});
+
+    codebits_tweets.fetch({success: function () {
+	console.log("Success. Obtained " + codebits_tweets.length + 
+    		" tweets from the server")
+    }})
+  </textarea>
+</div> 
+</section>
+
+
+<script type="codemirror" data-selector="#code-3">
+    var Tweets = Backbone.Collection.extend({
+    	model: Tweet,
+
+    	initialize : function (models, options) {
+    		this.tag = options.tag || "codebits";
+    	},
+
+    	url : function () {
+    		return '/tweets/' + this.tag;
+    	}
+    });
+</script>
+
+
 
 
 <section class="slide" id="code-end">
