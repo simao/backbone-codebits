@@ -427,14 +427,14 @@ object.trigger("custom-event", "An event")
 </section>
 
 
-<script type="codemirror" data-selector="#tweet-view-code, #code-3">
+<script type="codemirror" data-selector="#tweet-view-code,
+                                         #tweet-collection-code, #tweets-view-code">
     var Tweet = Backbone.Model.extend({});
 </script>
 
 
 <section class="slide" id="tweet-view">
   <h2>A View</h2>
-
 <div>
   <textarea name="tweet-view-code" id="tweet-view-code" class="code" mode="javascript"
             style="display:none;" globals="$,_,Backbone"
@@ -446,30 +446,35 @@ object.trigger("custom-event", "An event")
     	},
     
     	render : function () {
-    		$(this.el).append(_.template(this.template, this.model.toJSON()));
+    		var $el = $(this.el).hide();
+    		$el.html(_.template(this.template, this.model.toJSON()))
+		.fadeIn();
     		return this;
     	}
     });
 
-    var template = "<strong><%=user%></strong> tweeted: <span style='color:blue'><%=text%></span><br>";
+    var template = "<strong><%=author%></strong> tweeted: "+ 
+    			"<span style='color:blue'><%=text%></span><br>";
 
-    var t = new Tweet({user: "Alph", text: "1 2 3 Testing"});
-    var v = new TweetView({el: $("#zbitens"), model: t, template: template});
+    var t = new Tweet({author: "batráquio", text: "1 2 3 Testing"});
+    var v = new TweetView({
+    			el: $("#tweet-container"), model: t, 
+    			template: template});
 
     v.render();
 
   </textarea>
 </div> 
 
-<div id="zbitens"></div>
+<div id="tweet-container"></div>
 
 </section>
 
 
-<section class="slide" id="slide-code-2">
+<section class="slide" id="tweet-collection">
   <h2>A Collection of Tweets</h2>
 <div>
-  <textarea name="code-2" id="code-2" class="code" mode="javascript"
+  <textarea name="tweet-collection-code" id="tweet-collection-code" class="code" mode="javascript"
             style="display:none;" globals="$,_,Backbone"
             runnable="true">
 
@@ -495,8 +500,21 @@ object.trigger("custom-event", "An event")
 </div> 
 </section>
 
+<script type="codemirror" data-selector="#tweets-view-code">
+    var TweetView = Backbone.View.extend({
+    	initialize : function (options) {
+    		this.template = "<strong><%=author%></strong> tweeted: "+ 
+    			"<span style='color:blue'><%=text%></span><br>";
+    	},
+    
+    	render : function () {
+    		var $el = $(this.el).hide();
+    		$el.html(_.template(this.template, this.model.toJSON()))
+		.fadeIn();
+    		return this;
+    	}
+    });
 
-<script type="codemirror" data-selector="#code-3">
     var Tweets = Backbone.Collection.extend({
     	model: Tweet,
 
@@ -506,12 +524,43 @@ object.trigger("custom-event", "An event")
 
     	url : function () {
     		return '/tweets/' + this.tag;
-    	}
+    }
     });
 </script>
 
 
+<section class="slide" id="tweets-view">
+  <h2>A Real Timeline</h2>
+<div>
+  <textarea name="tweets-view-code" id="tweets-view-code" class="code" mode="javascript"
+            style="display:none;" globals="$,_,Backbone"
+            runnable="true">
 
+var Timeline = Backbone.View.extend({
+	model: new Tweets({}, {tag: "codebits"}),
+	
+	initialize: function () {
+		this.model.bind("add", this.addOne, this);
+		this.model.bind("reset", this.addAll, this);
+
+		this.model.fetch(); // Update the timeline, right now
+	},
+
+	addOne: function (model) {
+		var view = new TweetView({model: model});
+		$(this.el).append(view.render().el);
+	},
+	
+	addAll: function (models) {
+		this.model.each(this.addOne);
+	}
+});
+	var my_timeline = new Timeline({el: "#dtimeline"});
+  </textarea>
+</div> 
+
+  <div id="dtimeline"></div>
+</section>
 
 <section class="slide" id="code-end">
     <h1>&lt;/code&gt;</h1>
