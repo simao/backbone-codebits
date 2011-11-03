@@ -3,6 +3,7 @@ import bottle
 import tweepy
 import logging
 import json
+import time
 
 from bottle import response, route, static_file
 
@@ -34,9 +35,11 @@ def get_results_for(t_client, search_q):
 
     return [
         {
-            "author": t.from_user,
+            "author": "@%s" % t.from_user,
             "text": t.text,
             "id": t.id,
+            "date_human": t.created_at.isoformat(),
+            "date": time.mktime(t.created_at.timetuple()),
         } for t in results
     ]
 

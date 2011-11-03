@@ -508,7 +508,7 @@ object.trigger("custom-event", "An event")
     var TweetView = Backbone.View.extend({
     	initialize : function (options) {
     		this.template = "<strong><%=author%></strong> tweeted: "+ 
-    			"<span style='color:navy'><%=text%></span><br><br>";
+    			"<span style='color:navy'><%=text%></span><span style='font-size:10pt'> at <%=date_human%></span><br><br>";
     	},
     
     	render : function () {
@@ -625,10 +625,11 @@ Gosto de soluções simples
   </ul>
 </section>
 
-<section class="slide" id="thanks-to">
+<section class="slide" id="references">
   <h2>References</h2>
   <ul>
-    <li>Backbone.JS - <a href="http://documentcloud.github.com/backbone/">github</a></li>
+    <li>Backbone.JS - <a href="http://documentcloud.github.com/backbone/">Github</a></li>
+    <li>Underscore JS - <a href="http://documentcloud.github.com/underscore/">Github</a></li>
     <li>Pivotal Labs talk on Backbone.js</li>
   </ul>
 </section>
