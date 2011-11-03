@@ -487,7 +487,11 @@ object.trigger("custom-event", "An event")
 
     	url : function () {
     		return '/tweets/' + this.tag;
-    	}
+    	},
+
+	comparator: function (model) {
+    		return -1 * model.get('date');
+    	},
     });
 
     var codebits_tweets = new Tweets({}, {tag: "scala"});
@@ -504,7 +508,7 @@ object.trigger("custom-event", "An event")
     var TweetView = Backbone.View.extend({
     	initialize : function (options) {
     		this.template = "<strong><%=author%></strong> tweeted: "+ 
-    			"<span style='color:blue'><%=text%></span><br>";
+    			"<span style='color:navy'><%=text%></span><br><br>";
     	},
     
     	render : function () {
@@ -522,6 +526,10 @@ object.trigger("custom-event", "An event")
     		this.tag = options.tag || "codebits";
     	},
 
+	comparator: function (model) {
+    		return -1 * model.get('date');
+    	},
+
     	url : function () {
     		return './tweets/' + this.tag;
     }
@@ -531,7 +539,7 @@ object.trigger("custom-event", "An event")
 
 <section class="slide" id="tweets-view">
   <h2>A Real Timeline</h2>
-<div>
+<div id="tweets-view-code-div">
   <textarea name="tweets-view-code" id="tweets-view-code" class="code" mode="javascript"
             style="display:none;" globals="$,_,Backbone"
             runnable="true">
@@ -540,8 +548,10 @@ var Timeline = Backbone.View.extend({
 	model: new Tweets({}, {tag: "codebits"}),
 	
 	initialize: function () {
-		this.model.bind("add", this.addOne, this);
-		this.model.bind("reset", this.addAll, this);
+		_.bindAll(this);
+
+		this.model.bind("add", this.addOne);
+		this.model.bind("reset", this.addAll);
 
 		this.model.fetch(); // Update the timeline, right now
 	},
@@ -555,9 +565,12 @@ var Timeline = Backbone.View.extend({
 		this.model.each(this.addOne);
 	}
 });
-	var my_timeline = new Timeline({el: "#dtimeline"});
+	var container = $("#dtimeline").html("");
+	var my_timeline = new Timeline({el: container});
   </textarea>
 </div> 
+
+<a href="#tweets-view" style="color: gray; font-size: 10pt" onclick="javascript:$('#tweets-view-code-div').slideToggle()">o</a>
 
   <div id="dtimeline"></div>
 </section>
@@ -569,7 +582,7 @@ var Timeline = Backbone.View.extend({
 
 
 <section class="slide" id="">
-  <h2>Tips, tips, tips</h2>
+  <h2>Power Tips</h2>
 
   <ul>
     <li>Watch out when following the "official" TODO example</li>
