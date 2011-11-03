@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_URI} !(static/charts)
+RewriteRule /charts/(.*)$ static/charts/$1 [L]
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_URI} !(dispatch.fcgi)
+RewriteCond %{REQUEST_URI} !(static/charts)
+RewriteRule ^(.*)$ /codebits/dispatch.fcgi/$1 [L]
+
+ErrorDocument 500 "<h2>Application error</h2>Python FCGI application failed to start properly"
