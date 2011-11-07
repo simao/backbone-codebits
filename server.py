@@ -33,12 +33,13 @@ def get_results_for(t_client, search_q):
     """
     results = t_client.search(q="#"+search_q)
 
+    # This can be refactored
     return [
         {
             "author": "@%s" % t.from_user,
             "text": t.text,
             "id": t.id,
-            "date_human": t.created_at.isoformat(),
+            "date_h": t.created_at.strftime("%H:%M:%S %d/%m/%Y"),
             "date": time.mktime(t.created_at.timetuple()),
         } for t in results
     ]
@@ -47,12 +48,23 @@ def get_results_for(t_client, search_q):
 
 @route("/tweets/:query/:id")
 def get_tweet(query, id):
+    if int(id) == 42:
+        return {
+            "author": "@batráquio",
+            "text": "KEEP CALM",
+            "id": 42,
+            "date_h": "",
+            "date": "",
+            }
+    
     t = get_client().get_status(id)
     
     tweet = {
-        "author": t.user.screen_name,
+        "author": "@%s" % t.user.screen_name,
         "text": t.text,
         "id": t.id,
+        "date_h": t.created_at.strftime("%H:%M:%S %d/%m/%Y"),
+        "date": time.mktime(t.created_at.timetuple()),
     } 
     
     response.content_type = 'text/javascript; charset=utf8'

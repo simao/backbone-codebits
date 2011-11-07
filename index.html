@@ -244,7 +244,7 @@ All connected with key-value binding, custom events and declarative
 <section class="slide" id="models">
   <h2>Backbone.Model</h2>
 
-  <p>Models contain the web app data and a big part of it's logic:
+  <p>Models contain the web app data and a big part of it's <strong>logic:</strong>
 conversions, validations, computed properties, etc</p>
 
   <ul>
@@ -262,8 +262,7 @@ conversions, validations, computed properties, etc</p>
   </ul>
 </section>
 
-<!-- TODO: Code for Models -->
-
+<!-- TODO: Not needed for now 
 <section class="slide" id="models-code">
 
   <h2>Backbone.Model Code</h2>
@@ -285,8 +284,8 @@ conversions, validations, computed properties, etc</p>
     console.log(myBook.makeName());
   </textarea>
   </div>
-
 </section>
+-->
 
 
 
@@ -337,7 +336,6 @@ collection, for example: Documents.bind("change:selected", ...)
     var myBook = myLibrary.first();
 
     console.log(myBook.get('title'));
-    console.log("Library size: " + myLibrary.length)
   </div>
 
 </section>
@@ -390,7 +388,7 @@ the UI, it is always immediately up to date.
 
   <ul>
     <li>They don't determine anything about your HTML, that's the template's job</li>
-    <li>They glue the model with the template</li>
+    <li>They <strong>glue</strong> the model with the template</li>
     <li>The idea is to organize the interface into logical views,
     backed by models, each of which can be updated independently when
     the model changes</li>
@@ -470,6 +468,29 @@ object.trigger("custom-event", "An event")
 </section>
 
 
+<section class="slide" id="template">
+      <h2>A single tweet template</h2>
+
+    <textarea name="tweet-template-code" id="tweet-template-code" class="code" mode="text/html"
+            style="display:none;">
+    <strong><%=author%></strong> 
+    tweeted:
+    <span style='color:navy'><%=text%></span>
+    <time style='font-size:10pt;display:none'><%=date%><time>
+
+    </textarea>
+</section>
+
+
+<script type="codemirror" data-selector="#tweet-view-code, #tweets-view-code, #model-change-code">
+
+var loaded_template =   "<p><strong><%=author%></strong> "
+		       + "tweeted: "
+		       + "<span style='color:navy'><%=text%></span> "
+		       + "<time style='color:red;display:none'><%=date_h%><time></p>";
+</script>
+
+
 <section class="slide" id="tweet-model">
   <h2>A Model</h2>
 <div>
@@ -479,7 +500,7 @@ object.trigger("custom-event", "An event")
 
     var Tweet = Backbone.Model.extend({    });
 
-    var t = new Tweet({id: "131503891199172610", "text": "Hello Codebits"});
+    var t = new Tweet({author: "batráquio", "text": "Hello Codebits"});
 
     console.log(t.get('text'))
   </textarea>
@@ -510,24 +531,20 @@ object.trigger("custom-event", "An event")
     
     	render : function () {
     		var $el = $(this.el).hide();
-    		$el.html(_.template(this.template, this.model.toJSON())).fadeIn();
+    		$el.html(_.template(this.template, this.model.toJSON()))
+		.fadeIn();
     		return this;
     	},
 
 	toggleDate : function () { this.$('time').toggle()}
     });
 
-    
-    var template = "<strong><%=author%></strong> tweeted: "+ 
-    			"<span style='color:navy'><%=text%></span><span style='font-size:10pt'> <time style='display:none'><%=date%><time></span><br><br>";
-
-    var t = new Tweet({author: "batráquio", text: "1 2 3 Testing", date: "now"});
+    var t = new Tweet({author: "batráquio", text: "1 2 3 Testing", 
+    	date_h: "2011-11-07T14:57:06"});
     var v = new TweetView({el: $("#tweet-container"), model: t, 
-    			template: template});
+	template: loaded_template});
 
-    v.render();
-
-  </textarea>
+    v.render(); </textarea>
 </div> 
 
 <div id="tweet-container"></div>
@@ -568,11 +585,16 @@ object.trigger("custom-event", "An event")
 </div> 
 </section>
 
-<script type="codemirror" data-selector="#tweets-view-code, #self-update-code">
-    var TweetView = Backbone.View.extend({
+<script type="codemirror" data-selector="#tweets-view-code, #self-update-code, #model-change-code">
+
+var TweetView = Backbone.View.extend({
+	events: {
+    		"mouseover": "toggleDate",
+    		"mouseout": "toggleDate",
+    	},
+
     	initialize : function (options) {
-    		this.template = "<strong><%=author%></strong> tweeted: "+ 
-    			"<span style='color:navy'><%=text%></span><span style='font-size:10pt'> at <%=date_human%></span><br><br>";
+    		this.template = loaded_template;
     	},
     
     	render : function () {
@@ -580,7 +602,9 @@ object.trigger("custom-event", "An event")
     		$el.html(_.template(this.template, this.model.toJSON()))
 		.fadeIn();
     		return this;
-    	}
+    	},
+
+	toggleDate : function () { this.$('time').toggle()}
     });
 
     var Tweets = Backbone.Collection.extend({
@@ -646,7 +670,7 @@ var Timeline = Backbone.View.extend({
   <h2>Self updating timeline</h2>
 
   <textarea name="self-update-code" id="self-update-code" class="code" mode="javascript"
-            style="display:none;" globals="$,_,Backbone" runnable="true">
+            style="display:none;" globals="$,_,Backbone">
 
 var Timeline = Backbone.View.extend({
 	model: new Tweets({}, {tag: "codebits"}),
@@ -677,12 +701,52 @@ var Timeline = Backbone.View.extend({
     <div id="self-timeline"></div>
 </section>
 
+<script type="codemirror" data-selector="#model-change-code">
+	var Tweet = Backbone.Model.extend({
+        	urlRoot: "/tweets/codebits"
+        });
+</script>
+
+<section class="slide" id="model-changes">
+ <h2>Model Changes</h2>
+<div>
+    <textarea name="model-change-code" id="model-change-code" class="code" mode="javascript"
+            style="display:none;" globals="$,_,Backbone" runnable="true">
+
+      var TweetView = Backbone.View.extend({
+    	initialize : function (options) {
+    		this.model.bind("change:text", this.changedText, this);
+    	},
+
+      changedText : function (model) {
+      	this.$('span').hide().html(model.get('text')).fadeIn();
+      }
+
+	// ... a render function ...
+    });
+
+      var my_tweet = new Tweet({id: "42", text: "Don't Panic", author:
+      "batráquio", date: "", date_h: ""});
+
+      var container = $("#model-repr");
+      var tweetView = new TweetView({el: container, model: my_tweet});
+
+      // Fetch latest version of the tweet from server
+      my_tweet.fetch()
+    </textarea>
+</div>
+    <div id="model-repr">
+<p><strong>batráquio</strong> tweeted: <span style="color:navy">Don't Panic</span> <time style="color:red;display:none"><time></time></time></p>
+</div>
+</section>
 
 
+
+<!-- Don't have anything to say on this slide
 <section class="slide" id="code-end">
     <h1>&lt;/code&gt;</h1>
 </section>
-
+-->
 
 
 <section class="slide" id="">
