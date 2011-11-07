@@ -67,16 +67,14 @@
 
 
 <!--
-
 Falar no HTML ficar de facto misturado com javascript
 
-
-Manipulação do DOM misturada com código de validações e código ajax, etc etc 
+Manipulação do DOM misturada com código de validações e código ajax,
+etc etc
 
 No separation of concernss
 
 Dificil de testar/manter quando isto esta tudo misturado
-
 -->
 
 <section class="slide" id="structure">
@@ -93,6 +91,46 @@ Dificil de testar/manter quando isto esta tudo misturado
     <li>Event handling code scattered all over the application</li>
   </ul>
 </section>
+
+
+<section class="slide" id="example-problems">
+  <h2>No Structure?</h2>
+
+  <div>
+  <textarea id="code-collections-events"
+            name="code-collections-events" class="code"
+            mode="text/html" style="display: none;" ><html>
+  <script type="javascript">
+    // Code to perform client side validations
+    ...
+    // code for mouseover/presentation effects
+    ...
+    // code to auto-update the book list
+  </script>
+
+  <body>
+    ...
+    <div>
+      Title: The Time Machine
+      Author: H.G. Wells
+    </div>
+    <div>
+      Title: Brave New World
+      Author: Huxley
+    </div>
+    <form>
+      <input/>
+      <input/>
+      <button/>
+    </form>
+    ...
+  </body>
+</html>
+  </textarea>
+  </div>
+
+</section>
+
 
 
 <section class="slide" id="solution">
@@ -141,7 +179,6 @@ The same way we solve it in other applications</h1>
   <h1>What about all that client code?</h1>
 </section>
 
-
 <!-- Backbone supplies structure to JavaScript-heavy applications by
 providing models with key-value binding and custom events, collections
 with a rich API of enumerable functions, views with declarative event
@@ -160,8 +197,13 @@ Backbone.Model – Like a Rails model minus the class methods. Wraps a row of da
 Backbone.Collection – A group of models on the client-side, with sorting/filtering/aggregation logic.
 Backbone.Router – Rails routes.rb + Rails controller actions. Maps URLs to functions.
 Backbone.View – A logical, re-usable piece of UI. Often, but not always, associated with a model.
-Client-side Templates – Rails .html.erb views, rendering a chunk of HTML.
--->
+Client-side Templates – Rails .html.erb views, rendering a chunk of
+HTML.
+
+All connected with key-value binding, custom events and declarative
+  event handling
+
+ -->
 
 <section class="slide" id="what-is-backbone">
   <h2>Enter Backbone JS</h2>
@@ -172,18 +214,31 @@ Client-side Templates – Rails .html.erb views, rendering a chunk of HTML.
     <strong>Models, Collections, Views and Events</strong></p>
 
   <ul>
-    <li><strong>Backbone.Model</strong> Like a Rails/Django model, wraps data with business logic</li>
-    <li><strong>Backbone.View</strong> A re-usable piece of UI, often associated with a model. Dispatches events that originate from the UI</li>
-    <li><strong>Backbone.Collection</strong> A group of models on the client-side</li>
+    <li><strong>Backbone.Model</strong> Like a Rails/Django model, wraps data with <strong>business logic</strong></li>
+    <li><strong>Backbone.View</strong> A re-usable piece of <strong>UI</strong>, often associated with a model. Dispatches events that originate from the <strong>UI</strong></li>
+    <li><strong>Backbone.Collection</strong> A <strong>group</strong> of models on the client-side</li>
     <li><strong>Templates</strong> Like Rails .html.erb views or Django templates
   </ul>
   
-  <p>All connected with key-value binding, custom events and
-  declarative event handling</p>
-
   <h3>Where's the controller?</h3>
   <p>Backbone uses <strong>Backbone.Router</strong> to map urls and hashes to functions</p>
 </section>
+
+
+<section class="slide" id="client-server-mvc">
+  <h2>Where do I put my client side MVC?</h2>
+
+    <img src="img/http_mvc_arrow.png">
+</section>
+
+
+
+<section class="slide" id="client-server-mvc-2">
+    <h2>It's client side...</h2>
+
+  <img src="img/client_mvc.png">
+</section>
+
 
 
 <section class="slide" id="models">
@@ -195,9 +250,9 @@ conversions, validations, computed properties, etc</p>
   <ul>
     <li>Powerful wrapper around a JSON object</li>
     <li>Like a traditional Model, but with a simpler API</li>
-    <li>Event binding support for many different event types,
+    <li><strong>Event binding</strong> support for many different event types,
     (e.g. change of an attribute, refresh, etc...)</li>
-    <li>Able to sync with a server site RESTful JSON API</li>
+    <li>Able to <strong>sync</strong> with a server site RESTful JSON API</li>
     <ul>
       <li>But you don't need a RESTful API</li>
       <!-- <li>You can save your models using localStorage or in
@@ -253,7 +308,7 @@ collection, for example: Documents.bind("change:selected", ...)
 
   <ul>
     <li>Can update itself using via AJAX using a simple method call</li>
-    <li>Allows event binding to change events on any model in the collection</li>
+    <li>Allows event binding to <code>change</code> events on any model in the collection</li>
     <li>Supports most Underscore JS array functions, inspired by Ruby's Enumerable methods</li>
   </ul>
 
@@ -433,7 +488,7 @@ object.trigger("custom-event", "An event")
 
 
 <script type="codemirror" data-selector="#tweet-view-code,
-                                         #tweet-collection-code, #tweets-view-code">
+                                         #tweet-collection-code, #tweets-view-code, #self-update-code">
     var Tweet = Backbone.Model.extend({});
 </script>
 
@@ -443,27 +498,31 @@ object.trigger("custom-event", "An event")
 <div>
   <textarea name="tweet-view-code" id="tweet-view-code" class="code" mode="javascript"
             style="display:none;" globals="$,_,Backbone"
-            runnable="true">
+            runnable="true">var TweetView = Backbone.View.extend({
+	events: {
+    		"mouseover": "toggleDate",
+    		"mouseout": "toggleDate",
+    	},
 
-    var TweetView = Backbone.View.extend({
     	initialize : function (options) {
     		this.template = options.template;
     	},
     
     	render : function () {
     		var $el = $(this.el).hide();
-    		$el.html(_.template(this.template, this.model.toJSON()))
-		.fadeIn();
+    		$el.html(_.template(this.template, this.model.toJSON())).fadeIn();
     		return this;
-    	}
+    	},
+
+	toggleDate : function () { this.$('time').toggle()}
     });
 
+    
     var template = "<strong><%=author%></strong> tweeted: "+ 
-    			"<span style='color:blue'><%=text%></span><br>";
+    			"<span style='color:navy'><%=text%></span><span style='font-size:10pt'> <time style='display:none'><%=date%><time></span><br><br>";
 
-    var t = new Tweet({author: "batráquio", text: "1 2 3 Testing"});
-    var v = new TweetView({
-    			el: $("#tweet-container"), model: t, 
+    var t = new Tweet({author: "batráquio", text: "1 2 3 Testing", date: "now"});
+    var v = new TweetView({el: $("#tweet-container"), model: t, 
     			template: template});
 
     v.render();
@@ -509,7 +568,7 @@ object.trigger("custom-event", "An event")
 </div> 
 </section>
 
-<script type="codemirror" data-selector="#tweets-view-code">
+<script type="codemirror" data-selector="#tweets-view-code, #self-update-code">
     var TweetView = Backbone.View.extend({
     	initialize : function (options) {
     		this.template = "<strong><%=author%></strong> tweeted: "+ 
@@ -580,6 +639,46 @@ var Timeline = Backbone.View.extend({
   <div id="dtimeline"></div>
 </section>
 
+
+
+
+<section class="slide" id="self-update">
+  <h2>Self updating timeline</h2>
+
+  <textarea name="self-update-code" id="self-update-code" class="code" mode="javascript"
+            style="display:none;" globals="$,_,Backbone" runnable="true">
+
+var Timeline = Backbone.View.extend({
+	model: new Tweets({}, {tag: "codebits"}),
+	
+	initialize: function () {
+		_.bindAll(this);
+
+		this.model.bind("add", this.addOne);
+		this.model.bind("reset", this.addAll);
+
+		// And start an interval to update it
+		setInterval(this.model.fetch, 1000);
+	},
+
+	addOne: function (model) {
+		var view = new TweetView({model: model});
+		$(this.el).append(view.render().el);
+	},
+	
+	addAll: function (models) {
+		this.model.each(this.addOne);
+	}
+});
+
+	var container = $("#self-timeline").html("");
+	var my_timeline = new Timeline({el: container});
+  </textarea>
+    <div id="self-timeline"></div>
+</section>
+
+
+
 <section class="slide" id="code-end">
     <h1>&lt;/code&gt;</h1>
 </section>
@@ -592,7 +691,13 @@ var Timeline = Backbone.View.extend({
   <ul>
     <li>Watch out when following the "official" TODO example</li>
     <li>Always remember binding <code>this</code></li>
-    <li>Learn to love underscore.js - "It's the tie to go along with jQuery's tux."</li>
+    <li>Learn to love underscore.js - "It's the tie to go along with
+    jQuery's tux."</li>
+    <li>If you don't have a RESTful API you can still use
+    Backbone</li>
+    <ul>
+      <li>Use <strong>Backbone.nopersistence</strong> or <strong>Backbone.localStorage</strong> </li>
+    </ul>
   </ul>
 
   <!-- Funny tips image -->
@@ -650,11 +755,26 @@ Gosto de soluções simples
   <img src="img/trello.png">
 </section>
 
+<section class="slide" id="soundcloud">
+  <h2>Soundcloud</h2>
+  <img src="img/soundcloud.png">
+</section>
 
 <section class="slide" id="spreadd">
   <h2>Spreadd</h2>
   
   <img style="border: 1px 1px 1px 1px;" src="img/spreadd.png" />
+</section>
+
+
+<section class="slide" id="thanks">
+  <h2>Thanks</h2>
+  
+  <h3>Follow me
+  at <a href="http://twitter.com/simaom">@simaom</a></h3>
+
+
+  <h4><a href="http://simaomata.com">http://simaomata.com</a></h4>
 </section>
 
 
