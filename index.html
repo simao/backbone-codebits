@@ -142,7 +142,7 @@ Dificil de testar/manter quando isto esta tudo misturado
 <section class="slide" id="solution-2">
   <h1><span class="pink">So, how do we solve this?</span><br>
 
-The same way we solve it in other applications</h1>
+The same way we solve it in other app</h1>
 </section>
 
 <section class="slide" id="mvc-2">
@@ -162,7 +162,7 @@ The same way we solve it in other applications</h1>
 <section class="slide" id="mvc-4">
   <h2>Server-side MVC</h2>
 
-  <p>MVC gives structure to your server side application.</p>
+  <p><strong>MVC</strong> provides <strong>structure</strong> to your server side application.</p>
 
   <ul>
     <li><strong>Separation of concerns</strong> Business logic is
@@ -202,7 +202,6 @@ HTML.
 
 All connected with key-value binding, custom events and declarative
   event handling
-
  -->
 
 <section class="slide" id="what-is-backbone">
@@ -240,24 +239,29 @@ All connected with key-value binding, custom events and declarative
 </section>
 
 
+<section class="slide" id="meme">
+  <img src="img/meme.jpg" style="height:90%">
+</section>
+
+
 
 <section class="slide" id="models">
   <h2>Backbone.Model</h2>
 
-  <p>Models contain the web app data and a big part of it's <strong>logic:</strong>
+  <p><strong>Models</strong> contain the web app data and a big part of it's <strong>logic:</strong>
 conversions, validations, computed properties, etc</p>
 
   <ul>
     <li>Powerful wrapper around a JSON object</li>
     <li>Like a traditional Model, but with a simpler API</li>
-    <li><strong>Event binding</strong> support for many different event types,
-    (e.g. change of an attribute, refresh, etc...)</li>
-    <li>Able to <strong>sync</strong> with a server site RESTful JSON API</li>
+    <li>Able to <strong>sync</strong> with a server side RESTful JSON API</li>
     <ul>
       <li>But you don't need a RESTful API</li>
       <!-- <li>You can save your models using localStorage or in
       memory</li> -->
     </ul>
+    <li><strong>Event binding</strong> support for many different event types,
+    (e.g. change of an attribute, refresh, etc...)</li>
     <li>Extend Backbone.Model with your domain-specific methods</li>
   </ul>
 </section>
@@ -347,24 +351,6 @@ collection, for example: Documents.bind("change:selected", ...)
     });
 </script>
 
-<section class="slide" id="collections-events">
-  
-  <h2>Backbone.Collection Events</h2>
-
-
-  <div>
-  <div id="code-collections-events" name="code-collections-events" class="code" mode="javascript" style="display: none;" 
-       globals="$,Backbone,_" runnable="true">
-    var myLibrary = new Library;
-
-    myLibrary.bind("add", function (model) {
-    	console.log("New book added to collection: " + model.get('title'));
-    });
-
-    myLibrary.add(new Book({title: "The Time Machine"}));
-  </div>
-  </div>
-</section>
 
 
 
@@ -540,7 +526,7 @@ var loaded_template =   "<p><strong><%=author%></strong> "
     });
 
     var t = new Tweet({author: "batráquio", text: "1 2 3 Testing", 
-    	date_h: "2011-11-07T14:57:06"});
+    	date_h: "18:44:45 07/11/2011"});
     var v = new TweetView({el: $("#tweet-container"), model: t, 
 	template: loaded_template});
 
@@ -742,11 +728,9 @@ var Timeline = Backbone.View.extend({
 
 
 
-<!-- Don't have anything to say on this slide
 <section class="slide" id="code-end">
     <h1>&lt;/code&gt;</h1>
 </section>
--->
 
 
 <section class="slide" id="">
