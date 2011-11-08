@@ -110,14 +110,15 @@ Dificil de testar/manter quando isto esta tudo misturado
 
   <body>
     ...
-    <div>
-      Title: The Time Machine
+    <div id="book-1">
+      Title: <span id="title-1">The Time Machine</span>
       Author: H.G. Wells
     </div>
-    <div>
-      Title: Brave New World
+    <div id="book-2">
+      Title: <span id="title-2">Brave New World</span>
       Author: Huxley
     </div>
+
     <form>
       <input/>
       <input/>
@@ -506,15 +507,13 @@ var loaded_template =   "<p><strong><%=author%></strong> "
   <textarea name="tweet-view-code" id="tweet-view-code" class="code" mode="javascript"
             style="display:none;" globals="$,_,Backbone"
             runnable="true">var TweetView = Backbone.View.extend({
+	template: loaded_template,
+
 	events: {
     		"mouseover": "toggleDate",
     		"mouseout": "toggleDate",
     	},
 
-    	initialize : function (options) {
-    		this.template = options.template;
-    	},
-    
     	render : function () {
     		var $el = $(this.el).hide();
     		$el.html(_.template(this.template, this.model.toJSON()))
@@ -527,8 +526,7 @@ var loaded_template =   "<p><strong><%=author%></strong> "
 
     var t = new Tweet({author: "batráquio", text: "1 2 3 Testing", 
     	date_h: "18:44:45 07/11/2011"});
-    var v = new TweetView({el: $("#tweet-container"), model: t, 
-	template: loaded_template});
+    var v = new TweetView({el: $("#tweet-container"), model: t });
 
     v.render(); </textarea>
 </div> 
