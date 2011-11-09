@@ -623,18 +623,14 @@ var Timeline = Backbone.View.extend({
 		_.bindAll(this);
 
 		this.model.bind("add", this.addOne);
-		this.model.bind("reset", this.addAll);
 
-		this.model.fetch(); // Update the timeline, right now
+		// Update the timeline, right now
+		this.model.fetch({add: true});
 	},
 
 	addOne: function (model) {
 		var view = new TweetView({model: model});
 		$(this.el).append(view.render().el);
-	},
-	
-	addAll: function (models) {
-		this.model.each(this.addOne);
 	}
 });
 	var container = $("#dtimeline").html("");
@@ -663,19 +659,16 @@ var Timeline = Backbone.View.extend({
 		_.bindAll(this);
 
 		this.model.bind("add", this.addOne);
-		this.model.bind("reset", this.addAll);
-
+	
 		// And start an interval to update it
-		setInterval(this.model.fetch, 1000);
+		setInterval(function () {
+				this.model.fetch({add: true});
+		}, 1000);
 	},
 
 	addOne: function (model) {
 		var view = new TweetView({model: model});
 		$(this.el).append(view.render().el);
-	},
-	
-	addAll: function (models) {
-		this.model.each(this.addOne);
 	}
 });
 
