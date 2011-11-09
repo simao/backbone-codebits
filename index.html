@@ -547,7 +547,7 @@ var loaded_template =   "<p><strong><%=author%></strong> "
     	model: Tweet,
 
     	initialize : function (models, options) {
-    		this.tag = options.tag || "codebits";
+    		this.tag = options.tag;
     	},
 
     	url : function () {
@@ -559,10 +559,10 @@ var loaded_template =   "<p><strong><%=author%></strong> "
     	},
     });
 
-    var codebits_tweets = new Tweets({}, {tag: "scala"});
+    var scala_tweets = new Tweets({}, {tag: "scala"});
 
-    codebits_tweets.fetch({success: function () {
-	console.log("Success. Obtained " + codebits_tweets.length + 
+    scala_tweets.fetch({success: function () {
+	console.log("Success. Obtained " + scala_tweets.length + 
     		" tweets from the server")
     }})
   </textarea>
