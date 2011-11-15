@@ -22,11 +22,11 @@ On the
 [Backbone.js website](http://documentcloud.github.com/backbone/), you
 can read:
 
-    Backbone supplies structure to JavaScript-heavy applications by
-    providing models with key-value binding and custom events,
-    collections with a rich API of enumerable functions, views with
-    declarative event handling, and connects it all to your existing
-    application over a RESTful JSON interface.
+> Backbone supplies structure to JavaScript-heavy applications by
+> providing models with key-value binding and custom events,
+> collections with a rich API of enumerable functions, views with
+> declarative event handling, and connects it all to your existing
+> application over a RESTful JSON interface.
 
 In this presentation I will show you what backbone.js is, why you will
 want to use it and how to start using it. I will walk you through a
