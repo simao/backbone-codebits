@@ -65,17 +65,6 @@
 </section>
 
 
-<!--
-Falar no HTML ficar de facto misturado com javascript
-
-Manipulação do DOM misturada com código de validações e código ajax,
-etc etc
-
-No separation of concernss
-
-Dificil de testar/manter quando isto esta tudo misturado
--->
-
 <section class="slide" id="structure">
   <h2>Structure, you say?</h2>
 
@@ -180,31 +169,6 @@ The same way we solve it in other app</h1>
   <h1>What about all that client code?</h1>
 </section>
 
-<!-- Backbone supplies structure to JavaScript-heavy applications by
-providing models with key-value binding and custom events, collections
-with a rich API of enumerable functions, views with declarative event
-handling, and connects it all to your existing application over a
-RESTful JSON interface.
-
-Different implementations of the Model-View-Controller pattern tend to
-disagree about the definition of a controller. If it helps any, in
-Backbone, the View class can also be thought of as a kind of
-controller, dispatching events that originate from the UI, with the
-HTML template serving as the true view. We call it a View because it
-represents a logical chunk of UI, responsible for the contents of a
-single DOM element.
-
-Backbone.Model – Like a Rails model minus the class methods. Wraps a row of data in business logic.
-Backbone.Collection – A group of models on the client-side, with sorting/filtering/aggregation logic.
-Backbone.Router – Rails routes.rb + Rails controller actions. Maps URLs to functions.
-Backbone.View – A logical, re-usable piece of UI. Often, but not always, associated with a model.
-Client-side Templates – Rails .html.erb views, rendering a chunk of
-HTML.
-
-All connected with key-value binding, custom events and declarative
-  event handling
- -->
-
 <section class="slide" id="what-is-backbone">
   <h2>Enter Backbone JS</h2>
 
@@ -258,8 +222,6 @@ conversions, validations, computed properties, etc</p>
     <li>Able to <strong>sync</strong> with a server side RESTful JSON API</li>
     <ul>
       <li>But you don't need a RESTful API</li>
-      <!-- <li>You can save your models using localStorage or in
-      memory</li> -->
     </ul>
     <li><strong>Event binding</strong> support for many different event types,
     (e.g. change of an attribute, refresh, etc...)</li>
@@ -267,43 +229,7 @@ conversions, validations, computed properties, etc</p>
   </ul>
 </section>
 
-<!-- TODO: Not needed for now 
-<section class="slide" id="models-code">
 
-  <h2>Backbone.Model Code</h2>
-
-
-  <div>
-  <textarea id="code-models" name="code-models" class="code" mode="javascript" style="display: none;" 
-       globals="$,Backbone,_" runnable="true">
-    var Book = Backbone.Model.extend({
-	    makeName : function () {
-    		return 'Author: ' + this.get('author') +
-    			', Title: ' + this.get('title');
-	    }
-    });
-
-    var myBook = new Book({title: "JavaScript: The good parts"});
-    myBook.set({author: "Douglas Crockford"});
-
-    console.log(myBook.makeName());
-  </textarea>
-  </div>
-</section>
--->
-
-
-
-<!-- Collections are ordered sets of models. You can to bind "change"
-events to be notified when any model in the collection has been
-modified, listen for "add" and "remove" events, fetch the collection
-from the server, and use a full suite of Underscore.js methods.
-
-Any event that is triggered on a model in a collection will also be
-triggered on the collection directly, for convenience. This allows you
-to listen for changes to specific attributes in any model in a
-collection, for example: Documents.bind("change:selected", ...)
--->
 
 <section class="slide" id="collections">
   <h2>Backbone.Collection</h2>
@@ -355,21 +281,6 @@ collection, for example: Documents.bind("change:selected", ...)
 
 
 
-<!--
-    Coisas para falar:
-
-Views — they don't determine anything about your HTML or CSS for you,
-and can be used with any JavaScript templating library. The general
-idea is to organize your interface into logical views, backed by
-models, each of which can be updated independently when the model
-changes, without having to redraw the page. Instead of digging into a
-JSON object, looking up an element in the DOM, and updating the HTML
-by hand, you can bind your view's render function to the model's
-"change" event — and now everywhere that model data is displayed in
-the UI, it is always immediately up to date.
--->
-
-
 <section class="slide" id="views">
   <h2>Backbone.Views</h2>
 
@@ -418,12 +329,6 @@ the UI, it is always immediately up to date.
 
 
 
-<!-- 
-Events is a module that can be mixed in to any object, giving the
-object the ability to bind and trigger custom named events. Events do
-not have to be declared before they are bound, and may take passed
-arguments. For example:
--->
 
 <section class="slide" id="events">
   <h2>Backbone.Events</h2>

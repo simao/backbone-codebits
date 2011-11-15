@@ -4,21 +4,24 @@ import tweepy
 import logging
 import json
 import time
+import yaml
 
 from bottle import response, route, static_file
 
 LOG_FORMAT = '[%(levelname).1s] [%(asctime)s] [%(name)s] %(message)s'
 logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
 
-ACCESS_KEY = '19827707-vEk9JIjTwuJun2q3Yf8hcR2n4u6jkBHINRFNTJR4E'
-ACCESS_SECRET = 'KeEic3pOhBIfY8NqUUbESUw4A89m11Mmv8LecafhG30'
+twitter_config = {}
 
-CONSUMER_KEY = "FRWvJof6x5CmbOzi94w"
-CONSUMER_SECRET = "rSANtZ93KbszdOahhUpEeihFIYRuM5O7BoGI9VdBFk"
+def init_server():
+    global twitter_config
+    config = yaml.load(open('config.yaml'))
+    twitter_config.update(config['twitter'])
+init_server()
 
 
 def get_new_access_token():
-    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    auth = tweepy.OAuthHandler(twitter_config['consumer_key'], twitter_config['consumer_secret'])
     auth_url = auth.get_authorization_url()
     print 'Please authorize: ' + auth_url
     verifier = raw_input('PIN: ').strip()
@@ -93,8 +96,8 @@ def make_client():
             log.info("Returning twitter client from cache")
             return cache["api"]
         log.info("Creating new twitter client")
-        auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-        auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
+        auth = tweepy.OAuthHandler(twitter_config['consumer_key'], twitter_config['consumer_secret'])
+        auth.set_access_token(twitter_config['access_key'], twitter_config['access_secret'])
         api = tweepy.API(auth)
         cache["api"] = api
         return api
@@ -110,4 +113,4 @@ if __name__ == '__main__':
     log = logging.getLogger(__name__)
 
     bottle.debug()
-    bottle.run(server="paste", reloader=True, host='localhost')
+    bottle.run(server="paste", reloader=True, host='localhost', port=9999)
