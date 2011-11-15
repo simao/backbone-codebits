@@ -1,6 +1,7 @@
 # Give a Backbone to your web Applications
 
-These are the slides for a talk I gave on backbone.js
+These are the slides for a talk I gave on backbone.js at
+[codebits](http://codebits.eu)
 
 The slides require the included python http server to be running in
 the background so the JavaScript examples can work properly and
