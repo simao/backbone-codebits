@@ -7,7 +7,7 @@ the background so the JavaScript examples can work properly and
 actually show a real timeline.
 
 You can see a running version of these slides at
-http://simaomata.com/codebits/
+[http://simaomata.com/codebits/]
 
 ## Talk Abstract
 
